@@ -17,7 +17,14 @@
 # under the License.
 #
 #}
+{% if ansible_os_family | lower == 'debian' %}
 start-stop-daemon -c {{ mon_tra_service_user }}:{{ mon_tra_service_group }} \
     --pidfile /{{ mon_tra_monasca_run_dir }}/{{ mon_tra_component_name }}.pid \
     --start --exec {{ mon_tra_virtualenv_location }}/bin/python {{ mon_tra_service_dir }}/{{ mon_tra_service_file }} \
     >> {{ mon_tra_service_log_dir }}/{{ mon_tra_service_log_filename }} 2>> {{ mon_tra_service_log_dir }}/{{ mon_tra_service_log_filename }}
+{% elif ansible_os_family | lower == 'suse' %}
+start_daemon -u  {{ mon_tra_service_user }} -g {{ mon_tra_service_group }} \
+    -p /{{ mon_tra_monasca_run_dir }}/{{ mon_tra_component_name }}.pid \
+    {{ mon_tra_virtualenv_location }}/bin/python {{ mon_tra_service_dir }}/{{ mon_tra_service_file }} \
+    >> {{ mon_tra_service_log_dir }}/{{ mon_tra_service_log_filename }} 2>> {{ mon_tra_service_log_dir }}/{{ mon_tra_service_log_filename }}
+{% endif %}

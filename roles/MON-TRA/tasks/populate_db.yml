@@ -16,6 +16,9 @@
 #
 ---
 
+- name: MON-TRA | populate_db | include OS specific variables
+  include_vars: "{{ ansible_os_family | lower }}.yml"
+
 - name: MON-TRA | populate_db | Copy pre transform specs
   become: true
   template:
@@ -42,9 +45,10 @@
 
 - name: MON-TRA | populate_db | MySQL client
   become: yes
-  apt:
-    name: percona-xtradb-cluster-client-5.6
+  package:
+    name: "{{ item }}"
     state: present
+  with_items: monasca_transform_package_dependencies
 
 - name: MON-TRA | populate_db | Populate transform_specs in db
   run_once: true
