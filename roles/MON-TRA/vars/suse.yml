@@ -15,4 +15,6 @@
 #
 ---
 monasca_transform_package_dependencies:
-  - libmysqlclient18
+  - mariadb-client
+  - python-mysql
+  - python-PyMySQL
