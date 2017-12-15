@@ -20,13 +20,13 @@
   include_vars: "{{ ansible_os_family | lower }}.yml"
 
 - name: MON-TRA | install | Setup group
-  become: true
+  become: yes
   group:
     name: "{{ mon_tra_service_group }}"
     system: yes
 
 - name: MON-TRA | install | Setup user
-  become: true
+  become: yes
   user:
     name: "{{ mon_tra_service_user }}"
     system: yes
@@ -34,7 +34,7 @@
     groups: "{{ mon_tra_spark_group_name }}"
 
 - name: MON-TRA | install | Create directories
-  become: true
+  become: yes
   file:
     path: "{{ item }}"
     state: directory
@@ -49,7 +49,7 @@
     - "{{ mon_tra_specs_source_dir }}"
 
 - name: MON-TRA | install | Touch logfile
-  become: true
+  become: yes
   file:
     path: "{{ mon_tra_service_log_dir }}/{{ mon_tra_service_log_filename }}"
     state: touch
@@ -58,7 +58,7 @@
     mode: 0640
 
 - name: MON-TRA | install | Push zip generation script
-  become: true
+  become: yes
   template:
     src: create_zip.py.j2
     dest: "{{ mon_tra_tools_dir }}/create_zip.py"
@@ -67,7 +67,7 @@
     mode: 0755
 
 - name: MON-TRA | install | Push ddl generation script
-  become: true
+  become: yes
   template:
     src: generate_ddl.sh.j2
     dest: "{{ mon_tra_tools_dir }}/generate_ddl.sh"
@@ -76,7 +76,7 @@
     mode: 0755
 
 - name: MON-TRA | install | Push ddl generation python module and templates
-  become: true
+  become: yes
   copy:
     src: "{{ item }}"
     dest: "{{ mon_tra_tools_dir }}/{{ item }}"
@@ -90,7 +90,7 @@
 
 - name: MON-TRA | install | Create database root dir
   become_user: "{{ mon_tra_service_user }}"
-  become: true
+  become: yes
   file:
     path: "{{ mon_tra_database_root_dir }}"
     state: directory
@@ -99,7 +99,7 @@
 
 - name: MON-TRA | install | Copy mysql schema to host
   become_user: "{{ mon_tra_service_user }}"
-  become: true
+  become: yes
   copy:
     dest: "{{ mon_tra_schema_file }}"
     owner: "{{ mon_tra_service_user }}"
@@ -119,7 +119,7 @@
   run_once: true
   no_log: true
   become_user: "{{ mon_tra_service_user }}"
-  become: true
+  become: yes
   shell: >
       mysql
       {{ "--ssl-ca=" + mon_tra_ca_file if mon_tra_db_use_ssl else "" }} -u
@@ -132,7 +132,7 @@
     cache: update
 
 - name: MON-TRA | install | Install the monasca-transform venv
-  become: true
+  become: yes
   install_package:
     name: monasca_transform
     service: monasca-transform

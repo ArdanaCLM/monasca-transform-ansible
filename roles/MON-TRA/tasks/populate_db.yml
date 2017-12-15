@@ -20,7 +20,7 @@
   include_vars: "{{ ansible_os_family | lower }}.yml"
 
 - name: MON-TRA | populate_db | Copy pre transform specs
-  become: true
+  become: yes
   template:
     src: pre_transform_specs.json.j2
     dest: "{{ mon_tra_specs_source_dir }}/pre_transform_specs.json"
@@ -29,7 +29,7 @@
     mode: 0755
 
 - name: MON-TRA | populate_db | Copy transform specs
-  become: true
+  become: yes
   template:
     src: transform_specs.json.j2
     dest: "{{ mon_tra_specs_source_dir }}/transform_specs.json"
@@ -39,7 +39,7 @@
 
 - name: MON-TRA | populate_db | Generate ddl
   become_user: "{{ mon_tra_service_user }}"
-  become: true
+  become: yes
   command: |
     {{ mon_tra_tools_dir }}/generate_ddl.sh
 
@@ -54,7 +54,7 @@
   run_once: true
   no_log: true
   become_user: "{{ mon_tra_service_user }}"
-  become: true
+  become: yes
   shell: >
     mysql {{ "--ssl-ca=" + mon_tra_ca_file if mon_tra_db_use_ssl else "" }} -u
     {{ mon_tra_mysql_user }} -p{{ mon_tra_mysql_password }} -h
@@ -64,7 +64,7 @@
   run_once: true
   no_log: true
   become_user: "{{ mon_tra_service_user }}"
-  become: true
+  become: yes
   shell: >
     mysql {{ "--ssl-ca=" + mon_tra_ca_file if mon_tra_db_use_ssl else "" }} -u
     {{ mon_tra_mysql_user }} -p{{ mon_tra_mysql_password }} -h

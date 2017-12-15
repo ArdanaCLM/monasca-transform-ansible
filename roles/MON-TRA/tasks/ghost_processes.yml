@@ -18,7 +18,7 @@
 
 - name: MON-TRA | ghost_processes | Copy ghosting script
   become_user: "{{ mon_tra_service_user }}"
-  become: true
+  become: yes
   copy:
     src: "{{ item }}"
     dest: "{{ mon_tra_tools_dir }}/{{ item }}"
@@ -31,7 +31,7 @@
 
 - name: MON-TRA | ghost_processes | Ghost processes with deferred start
   become_user: "{{ mon_tra_service_user }}"
-  become: true
+  become: yes
   shell: ./create_ghost_process.sh {{ item }} 100
   args:
     chdir: "{{ mon_tra_tools_dir }}"

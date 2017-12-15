@@ -19,7 +19,7 @@
 - include: populate_db.yml
 
 - name: MON-TRA | configure | Copy service_runner.py template
-  become: true
+  become: yes
   template:
     src: "{{ mon_tra_service_file }}.j2"
     dest: "{{ mon_tra_service_dir }}/{{ mon_tra_service_file }}"
@@ -28,7 +28,7 @@
     mode: 0644
 
 - name: MON-TRA | configure | Copy configuration file
-  become: true
+  become: yes
   template:
     src: "{{ mon_tra_configuration_file }}.j2"
     dest: /etc/{{ mon_tra_configuration_file }}
@@ -38,7 +38,7 @@
 
 - name: MON-TRA | configure | Deploy the driver script
   become_user: "{{ mon_tra_service_user }}"
-  become: true
+  become: yes
   template:
     src: driver.py.j2
     dest: "{{ mon_tra_service_dir }}/driver.py"
@@ -47,18 +47,18 @@
     mode: 0644
 
 - name: MON-TRA | configure | Update installed packager cache
-  become: true
+  become: yes
   install_package:
     cache: update
 
 - name: MON-TRA | configure | Generate the zip for use in spark-submit
-  become: true
+  become: yes
   command: |
     "{{ mon_tra_bin_dir }}"/python
     {{ mon_tra_tools_dir }}/create_zip.py
 
 - name: MON-TRA | configure | Chown zipfile to service user
-  become: true
+  become: yes
   file:
     path: "{{ mon_tra_service_dir }}/{{ mon_tra_zip_filename }}"
     owner: "{{ mon_tra_service_user }}"
@@ -66,7 +66,7 @@
     mode: 0644
 
 - name: MON-TRA | configure | Create the init directory
-  become: true
+  become: yes
   file:
     path: "{{ mon_tra_init_dir }}"
     state: directory
@@ -75,7 +75,7 @@
     mode: 0755
 
 - name: MON-TRA | configure | Create service unit
-  become: true
+  become: yes
   template:
     src: monasca-transform.service.j2
     dest: "{{ mon_tra_systemd_service }}"
@@ -84,7 +84,7 @@
     mode: 0775
 
 - name: MON-TRA | configure | Create monasca-transform start script
-  become: true
+  become: yes
   template:
     src: start-monasca-transform.sh.j2
     dest: "{{ mon_tra_init_dir }}/start-monasca-transform.sh"
@@ -103,5 +103,5 @@
     mode: 0644
 
 - name: MON-TRA | configure | Reload systemctl
-  become: true
+  become: yes
   command: /bin/systemctl daemon-reload
