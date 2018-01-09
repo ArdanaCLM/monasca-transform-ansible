@@ -15,11 +15,13 @@
 # under the License.
 #
 ---
+- name: MON-TRA | create_kafka_topics | include kafka vars
+  include_vars: ../../kafka/vars/main.yml
 
 - name: MON-TRA | create_kafka_topics | Check metrics pre hourly topic
   delegate_to: "{{ mon_tra_kafka_target_host }}"
   shell: >
-    /opt/kafka/bin/kafka-topics.sh
+    {{ kafka_bin_dir }}/kafka-topics.sh
     --list
     --zookeeper {{ mon_tra_zookeeper_hosts }}
     --topic metrics_pre_hourly
@@ -30,7 +32,7 @@
 - name: MON-TRA | create_kafka_topics | Create metrics pre hourly topic
   delegate_to: "{{ mon_tra_kafka_target_host }}"
   command: >
-    /opt/kafka/bin/kafka-topics.sh
+    {{ kafka_bin_dir }}/kafka-topics.sh
     --create
     --zookeeper {{ mon_tra_zookeeper_hosts }}
     --replication-factor {{ mon_tra_kafka_replicas }}
