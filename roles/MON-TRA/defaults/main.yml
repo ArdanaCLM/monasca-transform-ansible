@@ -1,6 +1,6 @@
 #
 # (c) Copyright 2016-2017 Hewlett Packard Enterprise Development LP
-# (c) Copyright 2017 SUSE LLC
+# (c) Copyright 2017-2018 SUSE LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -30,6 +30,7 @@ mon_tra_service_log_filename: "{{ mon_tra_component_name }}.log"
 mon_tra_event_logging_enabled: "false"
 mon_tra_service_user: "monasca-transform"
 mon_tra_service_group: "{{ mon_tra_service_user }}"
+mon_tra_monasca_group: "monasca"
 mon_tra_service_start_levels: "2 3 4 5"
 mon_tra_virtualenv_location: "/opt/stack/service/monasca-transform/venv/"
 mon_tra_service_dir: "{{ mon_tra_app_dir }}/lib"
@@ -61,7 +62,11 @@ mon_tra_kafka_brokers: "{% for node in mon_tra_kafka_nodes %}{{ node.host }}:{{ 
 mon_tra_zookeeper_nodes: "{{ MON_TRA.consumes_FND_ZOO.members.private }}"
 mon_tra_zookeeper_hosts: "{% for node in mon_tra_zookeeper_nodes %}{{ node.host }}:{{ node.port }}{% if not loop.last %},{% endif %}{% endfor %}"
 mon_tra_spark_masters: "{% for node in FND_SPA.members.master %}{{ node.host }}:{{ node.port }}{% if not loop.last %},{% endif %}{% endfor %}"
-mon_tra_spark_home: "{{ mon_tra_spark_component_name | bin_dir() }}/../current"
+mon_tra_spark_home: "{%- if deployer_media_legacy_layout|bool -%}
+                        {{ mon_tra_spark_component_name | bin_dir() }}/../current
+                      {%- else -%}
+                        /usr/share/spark
+                      {%- endif -%}"
 # systemd
 mon_tra_systemd_service: /etc/systemd/system/monasca-transform.service
 mon_tra_init_dir: /etc/monasca/transform/init
@@ -73,8 +78,14 @@ mon_tra_mysql_password: "{{ MON_TRA.consumes_FND_MDB.vars.mysql_monasca_transfor
 mon_tra_mysql_target_host: "{{ MON_TRA.consumes_FND_MDB.vips.private[0].host }}"
 # specs source
 mon_tra_specs_source_dir: /etc/monasca/transform
+
+# Disabling TLS when connecting to the database, because
+# of problem with drizzle JDBC driver.
+
 # database ssl
-mon_tra_db_use_ssl: "{{ MON_TRA.consumes_FND_MDB.vips.private[0].use_tls }}"
+## mon_tra_db_use_ssl: "{{ MON_TRA.consumes_FND_MDB.vips.private[0].use_tls }}"
+mon_tra_db_use_ssl: False
+
 mon_tra_ca_file: /etc/ssl/certs/ca-certificates.crt
 # schema and data to populate
 mon_tra_schema_file: "{{ mon_tra_database_root_dir }}/monasca-transform_mysql.sql"

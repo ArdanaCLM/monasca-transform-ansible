@@ -31,7 +31,7 @@
     name: "{{ mon_tra_service_user }}"
     system: yes
     group: "{{ mon_tra_service_group }}"
-    groups: "{{ mon_tra_spark_group_name }}"
+    groups: "{{ mon_tra_spark_group_name }},{{ mon_tra_monasca_group }}"
 
 - name: MON-TRA | install | Create directories
   become: yes

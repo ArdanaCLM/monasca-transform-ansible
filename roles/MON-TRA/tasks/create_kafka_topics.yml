@@ -19,6 +19,7 @@
   include_vars: ../../kafka/vars/main.yml
 
 - name: MON-TRA | create_kafka_topics | Check metrics pre hourly topic
+  become: yes
   delegate_to: "{{ mon_tra_kafka_target_host }}"
   shell: >
     {{ kafka_bin_dir }}/kafka-topics.sh
@@ -30,6 +31,7 @@
   run_once: true
 
 - name: MON-TRA | create_kafka_topics | Create metrics pre hourly topic
+  become: yes
   delegate_to: "{{ mon_tra_kafka_target_host }}"
   command: >
     {{ kafka_bin_dir }}/kafka-topics.sh
