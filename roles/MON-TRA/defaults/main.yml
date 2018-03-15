@@ -67,6 +67,11 @@ mon_tra_spark_home: "{%- if deployer_media_legacy_layout|bool -%}
                       {%- else -%}
                         /usr/share/spark
                       {%- endif -%}"
+mon_tra_jdbc_server_type: "{%- if deployer_media_legacy_layout|bool -%}
+                              mysql:thin
+                           {%- else -%}
+                              mysql
+                           {%- endif -%}"
 # systemd
 mon_tra_systemd_service: /etc/systemd/system/monasca-transform.service
 mon_tra_init_dir: /etc/monasca/transform/init
@@ -79,12 +84,8 @@ mon_tra_mysql_target_host: "{{ MON_TRA.consumes_FND_MDB.vips.private[0].host }}"
 # specs source
 mon_tra_specs_source_dir: /etc/monasca/transform
 
-# Disabling TLS when connecting to the database, because
-# of problem with drizzle JDBC driver.
-
 # database ssl
-## mon_tra_db_use_ssl: "{{ MON_TRA.consumes_FND_MDB.vips.private[0].use_tls }}"
-mon_tra_db_use_ssl: False
+mon_tra_db_use_ssl: "{{ MON_TRA.consumes_FND_MDB.vips.private[0].use_tls }}"
 
 mon_tra_ca_file: /etc/ssl/certs/ca-certificates.crt
 # schema and data to populate
