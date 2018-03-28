@@ -37,6 +37,7 @@ adapter = monasca_transform.messaging.adapter:KafkaMessageAdapter
 topic = metrics
 brokers = {{ mon_tra_kafka_brokers }}
 publish_kafka_project_id = {{ mon_tra_admin_project_id }}
+publish_region = {{ mon_tra_region }}
 adapter_pre_hourly = monasca_transform.messaging.adapter:KafkaMessageAdapterPreHourly
 topic_pre_hourly = metrics_pre_hourly
 

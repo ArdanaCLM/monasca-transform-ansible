@@ -42,6 +42,7 @@ mon_tra_zip_filename: monasca_transform.zip
 
 
 mon_tra_admin_project:  "{{ KEY_API.vars.keystone_admin_tenant }}"
+mon_tra_region: "region1"
 mon_tra_keystone_url: "{{ MON_TRA.consumes_KEY_API.vips.private[0].url }}/v3"
 mon_tra_keystone_admin: "{{ KEY_API.vars.keystone_admin_user }}"
 mon_tra_keystone_admin_project: "{{ KEY_API.vars.keystone_admin_tenant }}"
