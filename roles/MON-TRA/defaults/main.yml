@@ -87,7 +87,7 @@ mon_tra_specs_source_dir: /etc/monasca/transform
 # database ssl
 mon_tra_db_use_ssl: "{{ MON_TRA.consumes_FND_MDB.vips.private[0].use_tls }}"
 
-mon_tra_ca_file: /etc/ssl/certs/ca-certificates.crt
+mon_tra_ca_file: "{{ trusted_ca_bundle }}"
 # schema and data to populate
 mon_tra_schema_file: "{{ mon_tra_database_root_dir }}/monasca-transform_mysql.sql"
 mon_tra_pre_transform_specs_file: "{{ mon_tra_database_root_dir }}/pre_transform_specs.sql"
