@@ -29,6 +29,9 @@
   become: yes
   user:
     name: "{{ mon_tra_service_user }}"
+    createhome: no
+    home: /var/nonexistent
+    shell: /sbin/nologin
     system: yes
     group: "{{ mon_tra_service_group }}"
     groups: "{{ mon_tra_spark_group_name }},{{ mon_tra_monasca_group }}"
