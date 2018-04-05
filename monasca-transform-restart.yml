@@ -1,6 +1,5 @@
 #
-# (c) Copyright 2016 Hewlett Packard Enterprise Development LP
-# (c) Copyright 2017-2018 SUSE LLC
+# (c) Copyright 2018 SUSE LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -15,17 +14,6 @@
 # under the License.
 #
 ---
+- include: _monasca-transform-schedule-restart.yml
 
-- name: MON-TRA | start | restart "{{ mon_tra_service_name }}"
-  become: yes
-  service:
-    name: "{{ mon_tra_service_name }}"
-    state: restarted
-  when: ardana_notify_monasca_transform_restart_required is defined and
-        ardana_notify_monasca_transform_restart_required.changed
-
-- name: MON-TRA | start | start "{{ mon_tra_service_name }}"
-  become: yes
-  service:
-    name: "{{ mon_tra_service_name }}"
-    state: started
+- include: monasca-transform-start.yml
