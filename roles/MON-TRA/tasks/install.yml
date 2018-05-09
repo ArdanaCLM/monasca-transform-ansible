@@ -35,6 +35,10 @@
     system: yes
     group: "{{ mon_tra_service_group }}"
     groups: "{{ mon_tra_spark_group_name }},{{ mon_tra_monasca_group }}"
+  register: monasca_transform_create_user_result
+  failed_when: monasca_transform_create_user_result|failed and
+                "user {{ mon_tra_service_user }} is currently used by process"
+                not in monasca_transform_create_user_result.msg
 
 - name: MON-TRA | install | Create directories
   become: yes
