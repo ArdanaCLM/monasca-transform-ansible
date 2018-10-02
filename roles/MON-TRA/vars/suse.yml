@@ -21,3 +21,4 @@ monasca_transform_package_dependencies:
   - "{{ mariadb_server_package }}-client"
   - python-mysql
   - python-PyMySQL
+  - python-oslo.service
