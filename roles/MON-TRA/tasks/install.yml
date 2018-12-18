@@ -141,10 +141,6 @@
 - name: MON-TRA | install | Install the monasca-transform venv
   become: yes
   install_package:
-    name: "{%- if deployer_media_legacy_layout|bool -%}
-                monasca_transform
-            {%- else -%}
-                monasca
-            {%- endif -%}"
+    name: "monasca"
     service: monasca-transform
     state: present

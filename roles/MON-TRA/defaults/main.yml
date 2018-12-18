@@ -63,16 +63,8 @@ mon_tra_kafka_brokers: "{% for node in mon_tra_kafka_nodes %}{{ node.host }}:{{ 
 mon_tra_zookeeper_nodes: "{{ MON_TRA.consumes_FND_ZOO.members.private }}"
 mon_tra_zookeeper_hosts: "{% for node in mon_tra_zookeeper_nodes %}{{ node.host }}:{{ node.port }}{% if not loop.last %},{% endif %}{% endfor %}"
 mon_tra_spark_masters: "{% for node in FND_SPA.members.master %}{{ node.host }}:{{ node.port }}{% if not loop.last %},{% endif %}{% endfor %}"
-mon_tra_spark_home: "{%- if deployer_media_legacy_layout|bool -%}
-                        {{ mon_tra_spark_component_name | bin_dir() }}/../current
-                      {%- else -%}
-                        /usr/share/spark
-                      {%- endif -%}"
-mon_tra_jdbc_server_type: "{%- if deployer_media_legacy_layout|bool -%}
-                              mysql:thin
-                           {%- else -%}
-                              mysql
-                           {%- endif -%}"
+mon_tra_spark_home: "/usr/share/spark"
+mon_tra_jdbc_server_type: "mysql"
 # systemd
 mon_tra_systemd_service: /etc/systemd/system/monasca-transform.service
 mon_tra_init_dir: /etc/monasca/transform/init
