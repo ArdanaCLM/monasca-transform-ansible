@@ -83,7 +83,7 @@ spark_event_logging_enabled = {{ mon_tra_event_logging_enabled }}
 
 # A list of jars which Spark should use
 # Note: 0-8 is Kafka version, 2.10 is Scala version, 2.2.3 is Spark version
-spark_jars_list = {{ mon_tra_spark_home }}/jars/spark-streaming-kafka-0-8_2.10-2.2.3.jar,{{ mon_tra_spark_home }}/jars/scala-library-2.10.6.jar,{{ mon_tra_spark_home }}/jars/kafka_2.10-0.8.2.1.jar,{{ mon_tra_spark_home }}/jars/metrics-core-2.2.0.jar,{{ mon_tra_spark_home }}/lib/mysql-connector-java.jar
+spark_jars_list = {{ mon_tra_spark_home }}/jars/spark-streaming-kafka-0-8_2.10-2.2.3.jar,{{ mon_tra_spark_home }}/jars/scala-library-2.10.6.jar,{{ mon_tra_spark_home }}/jars/kafka_2.10-0.8.2.1.jar,{{ mon_tra_spark_home }}/jars/metrics-core-2.2.0.jar,{{ mon_tra_spark_home }}/jars/mysql-connector-java.jar
 
 # A list of where the Spark master(s) should run
 spark_master_list = spark://{{ mon_tra_spark_masters }}
