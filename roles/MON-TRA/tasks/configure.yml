@@ -105,3 +105,12 @@
 - name: MON-TRA | configure | Reload systemctl
   become: yes
   command: /bin/systemctl daemon-reload
+
+- name: MON-TRA | configure | Create log file with appropriate permissions
+  become: yes
+  file:
+    path: "{{ mon_tra_service_log_dir }}/{{ mon_tra_service_log_filename }}"
+    owner: "{{ mon_tra_service_user }}"
+    group: "adm"
+    mode: 0666
+    state: touch
